@@ -13,10 +13,19 @@ BACKUP_PATH="/boot/firmware/config.txt.bak"
 PLYMOUTH_THEME_PATH="/usr/share/plymouth/themes/mytheme"
 PLYMOUTH_CONFIG="/usr/share/plymouth/themes/mytheme/mytheme.plymouth"
 PLYMOUTH_SCRIPT="/usr/share/plymouth/themes/mytheme/mytheme.script"
+PLYMOUTH_CONF="/etc/plymouth/plymouth.conf"
+INITRAMFS_MODULES="/etc/initramfs-tools/modules"
+CMDLINE_PATH="/boot/firmware/cmdline.txt"
+CMDLINE_BACKUP="/boot/firmware/cmdline.txt.bak"
 
 # Backup the original config file
 if [ ! -f "$BACKUP_PATH" ]; then
   cp "$CONFIG_PATH" "$BACKUP_PATH"
+fi
+
+# Backup the original cmdline file
+if [ ! -f "$CMDLINE_BACKUP" ]; then
+  cp "$CMDLINE_PATH" "$CMDLINE_BACKUP"
 fi
 
 # Copy the logo file to /boot/firmware
@@ -72,8 +81,23 @@ cp logo.png $PLYMOUTH_THEME_PATH/
 update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth $PLYMOUTH_CONFIG 100
 update-alternatives --set default.plymouth $PLYMOUTH_CONFIG
 
+# Create or update plymouth.conf
+echo "[Daemon]" > $PLYMOUTH_CONF
+echo "Theme=mytheme" >> $PLYMOUTH_CONF
+
+# Ensure initramfs is configured correctly
+grep -qxF '# Plymouth support' $INITRAMFS_MODULES || echo -e "\n# Plymouth support\ndrm\ni915 modeset=1" >> $INITRAMFS_MODULES
+
 # Update initramfs
 update-initramfs -u
+
+# Update cmdline.txt
+echo "Updating $CMDLINE_PATH"
+sed -i '/quiet splash/d' $CMDLINE_PATH
+sed -i '/plymouth.ignore-serial-consoles/d' $CMDLINE_PATH
+
+CMDLINE=$(cat $CMDLINE_PATH)
+echo "$CMDLINE quiet splash plymouth.ignore-serial-consoles" > $CMDLINE_PATH
 
 # Reboot to apply changes
 echo "Rebooting to apply changes..."
