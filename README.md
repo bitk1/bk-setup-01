@@ -1,11 +1,13 @@
-# BK Setup 01
+# IPFS Setup and Usage
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/bitk1/bk-setup-01.git
-   cd bk-setup-01
+This repository contains a script to install and configure IPFS on a Raspberry Pi.
 
-2.
+## Setup
 
-sudo chmod +x setup_logo.sh
-sudo ./setup_logo.sh
+To set up IPFS on your Raspberry Pi, run the following commands:
+
+```bash
+git clone https://github.com/bitk1/bk-setup-01.git
+cd bk-setup-01
+sudo ./setup_ipfs.sh
+
