@@ -6,6 +6,11 @@ if [ "$(id -u)" -ne 0 ]; then
   exit 1
 fi
 
+# Variables
+IPFS_USER="bitk1"
+IPFS_PATH="/home/$IPFS_USER/.ipfs"
+IPFS_SERVICE="/etc/systemd/system/ipfs.service"
+
 # Install prerequisites
 apt-get update
 apt-get install -y wget tar
@@ -16,17 +21,18 @@ tar -xvzf go-ipfs_v0.11.0_linux-arm.tar.gz
 cd go-ipfs
 ./install.sh
 
-# Initialize IPFS
-ipfs init
+# Initialize IPFS for the specified user
+sudo -u $IPFS_USER ipfs init
 
 # Create a systemd service for IPFS
-cat <<EOT > /etc/systemd/system/ipfs.service
+cat <<EOT > $IPFS_SERVICE
 [Unit]
 Description=IPFS daemon
 After=network.target
 
 [Service]
-User=root
+User=$IPFS_USER
+Environment=IPFS_PATH=$IPFS_PATH
 ExecStart=/usr/local/bin/ipfs daemon
 Restart=on-failure
 
