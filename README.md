@@ -15,7 +15,7 @@ git clone https://github.com/bitk1/bk-setup-01.git
 cd bk-setup-01
 
 
-Make the Script Executable:
+Make the Script Executable (if needed):
 chmod +x setup_ipfs.sh
 
 Run the Setup Script:
