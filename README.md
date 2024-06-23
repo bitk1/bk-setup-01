@@ -1,6 +1,10 @@
 # IPFS Setup and Usage
 
-This repository contains a script to install and configure IPFS on a BKAD.
+This repository contains a script to install and configure IPFS on a BKAD (bitknoweldge archive device). 
+
+## Preparation 
+
+Ensure you are on a linux machine, create a bitk1 account and ensure you are logged on. 
 
 ## Setup
 
