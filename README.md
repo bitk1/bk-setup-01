@@ -46,41 +46,37 @@ Access the IPFS Web UI by opening http://127.0.0.1:5001/webui in a web browser o
 
 
 
-Basic IPFS Commands
-Add a File to IPFS:
+## Basic IPFS command line commands
 
+Add a File to IPFS:
 echo "Hello, IPFS!" > hello.txt
 ipfs add hello.txt
-Retrieve a File from IPFS:
 
+Retrieve a File from IPFS:
 ipfs cat <file_hash>
 Replace <file_hash> with the actual hash of the file.
 
 Check IPFS Node Info:
-
 ipfs id
-View Connected Peers:
 
+View Connected Peers:
 ipfs swarm peers
 Systemd Service
+
+List files:
+ipfs files ls /
+
+List all pinned files: 
+ipfs pin ls --type=all
+
+
 The IPFS daemon is set up to run as a systemd service. You can manage it using the following commands:
 
-Explore IPFS Use Cases:
-Consider how you will use IPFS for your project, such as distributed file storage, content sharing, or data backup.
-
-Automation and Scripting:
-If you have specific use cases, consider creating additional scripts or tools to automate tasks with IPFS.
-
-Verification Steps
-After setting up IPFS, verify that the IPFS daemon is running and configured correctly:
-
-Check the IPFS Service Status:
 
 sudo systemctl status ipfs
 The output should indicate that the IPFS service is active and running.
 
 Verify IPFS Daemon is Running:
-
 ipfs id
 This command should return the identity information of your IPFS node, including its peer ID and addresses.
 
